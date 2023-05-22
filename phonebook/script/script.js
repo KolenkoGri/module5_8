@@ -2,7 +2,7 @@
 
 {
   // Storage
-  const data = [];
+  // const data = [];
   const phonebook = 'phonebook';
 
   const getStorage = (key) => {
@@ -233,7 +233,7 @@
   const renderContacts = (elem, data) => {
     // Добавил
     elem.replaceChildren();
-    const allRow = data.map(createRow);
+    const allRow = data ? data.map(createRow) : [];
     elem.append(...allRow);
     return allRow;
   };
@@ -321,7 +321,8 @@
     const sortSurname = document.querySelector('.surnameTr');
 
     sortName.addEventListener('click', () => {
-      data.sort((a, b) => {
+      const sortData = [...dataStorage];
+      dataStorage.sort((a, b) => {
         console.log(a, b);
         if (a.name > b.name) {
           return 1;
@@ -331,12 +332,12 @@
         }
         return 0;
       });
-      console.log(localStorage.getItem(phonebook));
-      renderContacts(list, dataStorage);
+      localStorage.setItem(phonebook, JSON.stringify(sortData));
+      renderContacts(list, sortData);
     });
 
     sortSurname.addEventListener('click', () => {
-      data.sort((a, b) => {
+      dataStorage.sort((a, b) => {
         console.log(a, b);
         if (a.surname > b.surname) {
           return 1;
@@ -346,7 +347,7 @@
         }
         return 0;
       });
-      console.log(data);
+      localStorage.setItem(phonebook, JSON.stringify(dataStorage));
       renderContacts(list, dataStorage);
     });
 
